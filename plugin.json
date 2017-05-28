@@ -1,0 +1,21 @@
+{
+    "id" : "flash",
+    "version" : "0.0.1",
+    "name" : "Flash",
+    "description" : "Gauge spec execution progress reporter",
+    "install": {
+        "windows": [],
+        "linux": [],
+        "darwin": []
+    },
+    "command" : {
+        "windows" : ["bin/flash"],
+        "linux" : ["bin/flash"],
+        "darwin" : ["bin/flash"]
+    },
+    "scope" : ["Execution"],
+    "gaugeVersionSupport": {
+        "minimum": "0.8.4",
+        "maximum": ""
+    }
+}
