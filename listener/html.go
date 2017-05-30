@@ -5,6 +5,7 @@ var html = `
 
 <head>
     <link href="https://getgauge.io/assets/images/favicons/favicon.ico" rel="shortcut icon" type="image/ico">
+    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
     <title>Flash - {{ .Project }}</title>
 </head>
 
@@ -53,12 +54,11 @@ var html = `
             socket.onopen = () => console.log("Socket is open");
             socket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
-                const statusClass = getStatusClass(data.Status);
                 try {
                     if (data.Type == "end") document.getElementsByClassName("menu")[0].style.borderColor = data.Status == "fail" ? "#e73e48" : "#1cb596";
-                    else if (data.Type == "spec") handleSpecEvent(data, statusClass);
-                    else if (data.Type == "scenario") handleScenarioEvent(data, statusClass);
-                    else handleStepEvent(data, statusClass);
+                    else if (data.Type == "spec") handleSpecEvent(data, data.Status);
+                    else if (data.Type == "scenario") handleScenarioEvent(data, data.Status);
+                    else handleStepEvent(data, data.Status);
                 } finally {
                     updateCounts(counts);
                 }
@@ -72,7 +72,7 @@ var html = `
             if (specMap[data.FileName]) {
                 document.getElementById(specMap[data.FileName].id).getElementsByTagName("li")[0].className = statusClass;
                 counts.specProgress--;
-                if (statusClass == "failSign") counts.specFailed++;
+                if (statusClass == "fail") counts.specFailed++;
                 else counts.specPassed++;
                 return;
             }
@@ -93,7 +93,7 @@ var html = `
                 const element = specMap[data.SpecFileName].scenarios[data.Name];
                 document.getElementById(element.id).getElementsByTagName("li")[0].className = statusClass;
                 counts.scenarioProgress--;
-                if (statusClass == "failSign") counts.scenarioFailed++;
+                if (statusClass == "fail") counts.scenarioFailed++;
                 else counts.scenarioPassed++;
                 return;
             }
@@ -141,12 +141,6 @@ var html = `
             document.getElementById("scenarioFailedCount").innerHTML = counts.scenarioFailed + " ✘";
             document.getElementById("scenarioPassedCount").innerHTML = counts.scenarioPassed + " ✔";
             document.getElementById("scenarioProgressCount").innerHTML = counts.scenarioProgress + " ⚡";
-        };
-
-        const getStatusClass = (status) => {
-            if (status == "fail") return "failSign";
-            else if (status == "progress") return "progressSign";
-            return "passSign";
         };
     </script>
     <style>
@@ -212,14 +206,6 @@ var html = `
             background: rgba(0, 0, 0, 0.15);
         }
 
-        .pass {
-            color: green;
-        }
-
-        .fail {
-            color: red;
-        }
-
         .spec {
             font-size: 18px;
             margin-bottom: 0.8%;
@@ -240,27 +226,9 @@ var html = `
         }
 
         #specs {
-            font-family: Monaco;
+            font-family: 'Source Code Pro', monospace;
             height: 85%;
             padding-top: 85px;
-        }
-
-        .failSign:before {
-            content: "✘";
-            color: red;
-            margin-right: 10px;
-        }
-
-        .passSign:before {
-            content: "✔";
-            color: green;
-            margin-right: 10px;
-        }
-
-        .progressSign:before {
-            content: "⚡";
-            color: yellow;
-            margin-right: 10px;
         }
 
         li {
@@ -307,17 +275,17 @@ var html = `
         }
 
         .specName {
-            padding-bottom: 0.3%;
+            padding-bottom: 0.1%;
             display: inline-block;
         }
 
         .scenarioName {
-            padding-bottom: 0.2%;
+            padding-bottom: 0.05%;
             display: inline-block;
         }
 
         .stepName {
-            padding-bottom: 0.1%;
+            padding-bottom: 0.05%;
             display: inline-block;
         }
 
@@ -347,6 +315,18 @@ var html = `
 
         tr {
             line-height: 120%;
+        }
+
+        .fail {
+            color: #d80a16;
+        }
+
+        .pass {
+	    color: green;
+        }
+
+        .progress {
+            color: black;
         }
     </style>
 </body>
