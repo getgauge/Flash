@@ -12,6 +12,7 @@ import (
 
 	"github.com/getgauge/flash/event"
 	"github.com/gorilla/websocket"
+	"time"
 )
 
 var port = fmt.Sprintf(":%d", getFreePort())
@@ -22,13 +23,17 @@ var events []event.Event
 
 var homeTemplate *template.Template
 
+var timestamp = time.Now().Format("2006-01-02 15:04:05")
+
 func home(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		URL     string
 		Project string
+		Timestamp string
 	}{
 		URL:     fmt.Sprintf("127.0.0.1%s/progress", port),
 		Project: GetProjectRoot(),
+		Timestamp: timestamp,
 	}
 	homeTemplate.Execute(w, data)
 }
