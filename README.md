@@ -33,6 +33,11 @@ gauge --add-plugin flash
 * [Golang](http://golang.org/)
 
 ### Compiling
+
+Dependencies
+```
+go get ./...
+```
 Compilation
 ```
 go run build/make.go
