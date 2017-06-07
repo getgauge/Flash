@@ -27,6 +27,10 @@ gauge --add-plugin flash
 
 * Execute specs and open the URL in browser shown in console output.
 
+### Configuration
+
+* To use a specific port, set `FLASH_SERVER_PORT={port}` as environment variable or in `env/default/flash.properties` file.
+
 ## Build from Source
 
 ### Requirements

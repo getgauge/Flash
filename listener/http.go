@@ -10,12 +10,16 @@ import (
 	"path/filepath"
 	"reflect"
 
+	"strconv"
+	"time"
+
 	"github.com/getgauge/flash/event"
 	"github.com/gorilla/websocket"
-	"time"
 )
 
-var port = fmt.Sprintf(":%d", getFreePort())
+const flashServerPort = "FLASH_SERVER_PORT"
+
+var port = fmt.Sprintf(":%d", getPort())
 
 var connections []*websocket.Conn
 
@@ -27,12 +31,12 @@ var timestamp = time.Now().Format("2006-01-02 15:04:05")
 
 func home(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		URL     string
-		Project string
+		URL       string
+		Project   string
 		Timestamp string
 	}{
-		URL:     fmt.Sprintf("127.0.0.1%s/progress", port),
-		Project: GetProjectRoot(),
+		URL:       fmt.Sprintf("127.0.0.1%s/progress", port),
+		Project:   GetProjectRoot(),
 		Timestamp: timestamp,
 	}
 	homeTemplate.Execute(w, data)
@@ -97,7 +101,15 @@ func (l *httpListener) Start() {
 	log.Fatal(http.ListenAndServe(port, nil))
 }
 
-func getFreePort() int {
+func getPort() int {
+	port := os.Getenv(flashServerPort)
+	if port != "" {
+		p, err := strconv.Atoi(port)
+		if err == nil {
+			return p
+		}
+		fmt.Printf("[Flash] Cannot use %s='%s' value. Error: %s\n", flashServerPort, port, err)
+	}
 	l, err := net.ListenTCP("tcp", &net.TCPAddr{Port: 0})
 	if err != nil {
 		log.Fatalf(err.Error())
