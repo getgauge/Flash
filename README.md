@@ -1,4 +1,4 @@
-# Flash
+# Flash [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 Execution progress reporter for [Gauge](http://getgauge.io).
 
