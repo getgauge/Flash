@@ -2,7 +2,10 @@
 
 Execution progress reporter for [Gauge](http://getgauge.io).
 
-## Install through Gauge
+## Usage
+
+### Install through Gauge
+Run the following command in the Gauge project directory to install and add the plugin to project.
 ```
 gauge install flash
 ```
@@ -12,17 +15,10 @@ gauge install flash
 gauge install flash --version 0.0.1
 ```
 
-### Offline installation
+#### Offline installation
 * Download the plugin from [Releases](https://github.com/getgauge/flash/releases)
 ```
 gauge install flash --file flash-0.0.0-linux.x86_64.zip
-```
-
-## Usage
-
-* Add plugin to project
-```
-gauge install flash
 ```
 
 * Execute specs and open the URL in browser shown in console output.
