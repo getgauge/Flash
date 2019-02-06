@@ -22,7 +22,9 @@ gauge install flash --version 0.0.1
 gauge install flash --file flash-0.0.0-linux.x86_64.zip
 ```
 
-* Execute specs and open the URL in browser shown in console output.
+#### Usage 
+
+Execute specs and open the URL in browser shown in console output.
 
 ### Configuration
 
