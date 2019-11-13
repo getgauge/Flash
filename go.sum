@@ -1,0 +1,6 @@
+github.com/getgauge/flash v0.0.1 h1:7/2y3Y+4ovI6j7E3dc8Te2dfSn8mGd3cC5IenApwHPk=
+github.com/getgauge/flash v0.0.1/go.mod h1:XvBB9Jb5OgSp5w6fvfV0LA6cgOwzeH/zVuUg3M8SPyE=
+github.com/golang/protobuf v1.3.2 h1:6nsPYzhq5kReh6QImI3k5qWzO4PEbvbIW2cwSfR/6xs=
+github.com/golang/protobuf v1.3.2/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
+github.com/gorilla/websocket v1.4.1 h1:q7AeDBpnBk8AogcD4DSag/Ukw/KV+YhzLj2bP5HvKCM=
+github.com/gorilla/websocket v1.4.1/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
