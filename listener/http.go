@@ -19,7 +19,7 @@ import (
 
 const flashServerPort = "FLASH_SERVER_PORT"
 
-var port = fmt.Sprintf(":%d", getPort())
+var port = getPort()
 
 var connections []*websocket.Conn
 
@@ -35,7 +35,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		Project   string
 		Timestamp string
 	}{
-		URL:       fmt.Sprintf("127.0.0.1%s/progress", port),
+		URL:       fmt.Sprintf("127.0.0.1:%d/progress", port),
 		Project:   GetProjectRoot(),
 		Timestamp: timestamp,
 	}
@@ -84,7 +84,7 @@ type httpListener struct {
 	event chan event.Event
 }
 
-func NewHttpListener(e chan event.Event) Listener {
+func NewHttpListener(e chan event.Event) *httpListener {
 	return &httpListener{event: e}
 }
 
@@ -92,13 +92,13 @@ func (l *httpListener) Start() {
 	http.HandleFunc("/", home)
 	http.HandleFunc("/progress", progress)
 	go handleEvents(l.event)
-	fmt.Printf("[Flash] Starting progress reporting at http://127.0.0.1%s\n", port)
+	fmt.Printf("[Flash] Starting progress reporting at http://127.0.0.1:%d\n", port)
 	var err error
 	homeTemplate, err = template.New("home").Parse(html)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	log.Fatal(http.ListenAndServe(port, nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", port), nil))
 }
 
 func getPort() int {
