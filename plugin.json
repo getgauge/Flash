@@ -28,6 +28,5 @@
     },
     "capabilities": [
         "grpc_support",
-        "execution"
     ]
 }
