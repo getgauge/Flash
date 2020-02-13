@@ -36,7 +36,7 @@ func startAPI(e chan event.Event) {
 	if err != nil {
 		panic("failed to start server.")
 	}
-	server := grpc.NewServer(grpc.MaxRecvMsgSize(1024 * 1024 * 1024 * 10))
+	server := grpc.NewServer(grpc.MaxRecvMsgSize(1024 * 1024 * 1024))
 	h := listener.NewHandler(server, e)
 	gm.RegisterReporterServer(server, h)
 	fmt.Printf("Listening on port:%d\n", l.Addr().(*net.TCPAddr).Port)
