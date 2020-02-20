@@ -1,6 +1,6 @@
 {
     "id": "flash",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "name": "Flash",
     "description": "Gauge spec execution progress reporter",
     "install": {
