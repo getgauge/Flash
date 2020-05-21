@@ -1,5 +1,4 @@
 # Flash
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 [![Actions Status](https://github.com/getgauge/flash/workflows/build/badge.svg)](https://github.com/getgauge/flash/actions)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
