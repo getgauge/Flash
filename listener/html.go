@@ -59,7 +59,7 @@ var html = `
         };
 
         const initWS = () => {
-            const socket = new WebSocket("ws://{{ .URL }}");
+            const socket = new WebSocket("ws://" + window.location.host + "/progress");
             socket.onopen = () => console.log("Socket opened");
             socket.onmessage = function(e) {
                 const data = JSON.parse(e.data);
