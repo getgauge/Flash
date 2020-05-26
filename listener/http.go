@@ -36,11 +36,9 @@ var timestamp = time.Now().Format("2006-01-02 15:04:05")
 
 func home(w http.ResponseWriter, r *http.Request) {
 	data := struct {
-		URL       string
 		Project   string
 		Timestamp string
 	}{
-		URL:       fmt.Sprintf("127.0.0.1:%d/progress", port),
 		Project:   GetProjectRoot(),
 		Timestamp: timestamp,
 	}
