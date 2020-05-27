@@ -101,7 +101,7 @@ func (l *httpListener) Start() {
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("127.0.0.1:%d", port), nil))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), nil))
 }
 
 func getPort() int {
