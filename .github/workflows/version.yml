@@ -1,0 +1,50 @@
+name: Version Check
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  check:
+    name: check if version is bumped
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Verify version is bumped or not
+        id: version_check
+        env:
+          tags_url: ${{ toJson(github.event.pull_request.base.repo.tags_url) }}
+        run: |
+          import json
+          import os
+          from distutils.version import StrictVersion
+          from urllib import request
+
+          file_name = "plugin.json"
+          repo_name = os.environ["GITHUB_REPOSITORY"]
+          res = request.urlopen("https://api.github.com/repos/{}/tags".format(repo_name))
+          data = res.read().decode("utf-8")
+          tags = json.loads(data)
+          latest_release_version = StrictVersion(tags[0]["name"].replace('v', ''))
+
+          with open(file_name, 'r') as f:
+              data = json.load(f)
+              current_version = StrictVersion(data["version"])
+
+          print("::set-output name=is_version_bumped::{0}".format(current_version > latest_release_version))
+        shell: python
+
+      - uses: christianvuerings/add-labels@v1
+        if: steps.version_check.outputs.is_version_bumped == 'True'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: |
+            ReleaseCandidate
