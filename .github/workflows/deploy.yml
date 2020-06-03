@@ -1,15 +1,20 @@
 name: deploy
-on: [deployment]
+on:
+  pull_request:
+    types:
+      - closed
 
 jobs:
   deploy:
-    name: deploy flash
-    runs-on: macos-latest
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'ReleaseCandidate')
+    name: Deploy flash
+    runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 
     steps:
       - uses: actions/checkout@v1
+      - uses: geertvdc/setup-hub@master
 
       - name: Setup go 1.13.1
         uses: actions/setup-go@v1
@@ -20,9 +25,8 @@ jobs:
         run: |
           go run build/make.go --all-platforms
           go run build/make.go --all-platforms --distro
-      - name: Install hub
-        run: brew install hub
-      - name: update
+
+      - name: Create release and deploy assets
         run: |
           cd deploy
           if [ -z "$version" ]; then
@@ -50,17 +54,3 @@ jobs:
                   exit 1
               fi
           done
-      - name: 'deployment success'
-        if: success()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'success'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
-      - name: 'deployment failure'
-        if: failure()
-        uses: 'deliverybot/status@master'
-        with:
-          state: 'failure'
-          token: '${{ secrets.GITHUB_TOKEN }}'
-
